@@ -32,16 +32,31 @@ resource "azurerm_network_security_group" "nsg" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
+# Public IP
+resource "azurerm_public_ip" "public_ip" {
+  name                = "public-ip-linux-vm"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Dynamic"  # You can use "Static" for a fixed IP
+  sku                 = "Basic"    # Use "Standard" for better features and availability
+
+  tags = {
+    environment = "dev"
+  }
+}
+
 # Network Interface for Linux VM
 resource "azurerm_network_interface" "nic_linux" {
   name                = "nic-linux-vm"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
+  # Network interface configuration
   ip_configuration {
     name                          = "ipconfig-linux"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.public_ip.id  # Associate public IP
   }
 }
 
@@ -79,6 +94,7 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
   admin_password                  = "Password@123"  # Replace with secure credentials
   disable_password_authentication = false
 
+  # Network interface for the VM
   network_interface_ids = [azurerm_network_interface.nic_linux.id]
 
   os_disk {
@@ -101,7 +117,7 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
 
   # User Data (Base64 Encoded)
   custom_data = base64encode(data.template_file.user_data_script.rendered)
-  
+
   # Define SSH public key for authentication
   admin_ssh_key {
     username   = "adminuser"
