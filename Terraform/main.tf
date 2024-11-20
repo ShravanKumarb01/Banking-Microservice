@@ -61,28 +61,6 @@ resource "azurerm_network_interface" "nic_linux" {
 }
 
 # User Data Script (Base64 Encoded)
-data "template_file" "user_data_script" {
-  template = <<-EOT
-    #!/bin/bash
-    sudo dnf -y update
-
-    # Install Docker
-    sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    sudo dnf install -y docker-ce docker-ce-cli containerd.io
-    sudo systemctl enable --now docker
-    sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    sudo dnf install -y docker-compose-plugin
-    docker compose version
-
-    # Install Java 11 (OpenJDK)
-    sudo dnf install -y java-11-openjdk-devel
-    java -version
-
-    # Install Maven
-    sudo dnf install -y maven
-    mvn -version
-  EOT
-}
 
 # Linux Virtual Machine
 resource "azurerm_linux_virtual_machine" "linux_vm" {
