@@ -13,7 +13,12 @@
     <properties>
         <java.version>11</java.version> <!-- Specify your Java version -->
         <spring.boot.version>2.5.4</spring.boot.version> <!-- Specify your Spring Boot version -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source> <!-- Adjust based on Java version -->
+        <maven.compiler.target>1.8</maven.compiler.target> <!-- Adjust based on Java version -->
     </properties>
+
+
 
     <dependencyManagement>
         <dependencies>
@@ -85,8 +90,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${java.version}</source> <!-- Set Java source version -->
-                    <target>${java.version}</target> <!-- Set Java target version -->
+                    <source>1.8</source> <!-- Specify your source Java version -->
+                    <target>1.8</target> <!-- Specify your target Java version -->
                 </configuration>
             </plugin>
         </plugins>
