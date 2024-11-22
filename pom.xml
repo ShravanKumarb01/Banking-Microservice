@@ -90,8 +90,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${java.version}</source> <!-- Set Java source version -->
-                    <target>${java.version}</target> <!-- Set Java target version -->
+                    <source>1.8</source> <!-- Specify your source Java version -->
+                    <target>1.8</target> <!-- Specify your target Java version -->
                 </configuration>
             </plugin>
         </plugins>
